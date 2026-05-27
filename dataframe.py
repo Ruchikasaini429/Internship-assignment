@@ -1,65 +1,72 @@
-# DataFrames
-# Make a Pandas DataFrame with a two-dimensional Python list 
-# Create DataFrame from Python dict 
-# Create Pandas dataframe using list of lists 
-# Create a Pandas dataframe using list of tuples 
-# Create a Pandas DataFrame from List of Dicts
-# Import pandas
 import pandas as pd
 
-data_2d = [
-    [101, "Riya", 85],
-    [102, "Aman", 90],
-    [103, "Neha", 78]
-]
+# First DataFrame
+df1 = pd.DataFrame({
+    'ID': [1, 2, 3, 4],
+    'Name': ['vansh', 'Riya', 'Karan', 'Priya']
+})
 
-df1 = pd.DataFrame(data_2d)
+# Second DataFrame
+df2 = pd.DataFrame({
+    'ID': [2, 3, 4, 5],
+    'City': ['jaipur', 'sikar', 'Pune', 'indore']
+})
 
-print("DataFrame from 2D List:")
+print("DataFrame df1:")
 print(df1)
 
-data_dict = {
-    "Name": ["Riya", "Aman", "Neha"],
-    "Age": [20, 21, 19],
-    "Marks": [85, 90, 78]
-}
-
-df2 = pd.DataFrame(data_dict)
-
-print("\nDataFrame from Dictionary:")
+print("\nDataFrame df2:")
 print(df2)
 
-list_of_lists = [
-    ["Riya", 20, "Delhi"],
-    ["Aman", 21, "Mumbai"],
-    ["Neha", 19, "Jaipur"]
-]
+#inner merge
+inner_merge = pd.merge(df1, df2, on='ID', how='inner')
 
-df3 = pd.DataFrame(list_of_lists,
-                   columns=["Name", "Age", "City"])
+print("Inner Merge:")
+print(inner_merge)
 
-print("\nDataFrame from List of Lists:")
-print(df3)
+#left join on ID
+left_join = pd.merge(df1, df2, on='ID', how='left')
 
-list_of_tuples = [
-    ("Riya", 85),
-    ("Aman", 90),
-    ("Neha", 78)
-]
+print("Left Join:")
+print(left_join)
 
-df4 = pd.DataFrame(list_of_tuples,
-                   columns=["Name", "Marks"])
+#right join using  pd.merge
+right_join = pd.merge(df1, df2, on='ID', how='right')
 
-print("\nDataFrame from List of Tuples:")
-print(df4)
+print("Right Join:")
+print(right_join)
 
-list_of_dicts = [
-    {"Name": "Riya", "Age": 20},
-    {"Name": "Aman", "Age": 21},
-    {"Name": "Neha", "Age": 19}
-]
+#index based  join using df.join
+# Setting ID as index
+df1_index = df1.set_index('ID')
+df2_index = df2.set_index('ID')
 
-df5 = pd.DataFrame(list_of_dicts)
+# Join based on index
+index_join = df1_index.join(df2_index)
 
-print("\nDataFrame from List of Dictionaries:")
-print(df5)
+print("Index-Based Join:")
+print(index_join)
+
+#merging with multiple keys
+df3 = pd.DataFrame({
+    'ID': [1, 2, 3, 4],
+    'Department': ['HR', 'IT', 'IT', 'Sales'],
+    'Salary': [30000, 40000, 45000, 35000]
+})
+
+df4 = pd.DataFrame({
+    'ID': [2, 3, 4, 5],
+    'Department': ['IT', 'IT', 'Sales', 'HR'],
+    'Bonus': [5000, 6000, 7000, 4000]
+})
+
+# Merge on multiple keys
+multiple_merge = pd.merge(
+    df3,
+    df4,
+    on=['ID', 'Department'],
+    how='inner'
+)
+
+print("Merge with Multiple Keys:")
+print(multiple_merge)
